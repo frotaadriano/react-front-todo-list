@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-
 const estiloLinhaListaDeTarefas = {
     color: 'grey',  
     width: '100%' ,
