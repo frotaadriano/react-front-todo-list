@@ -1,9 +1,6 @@
-import axios from 'axios'
-import { async } from 'q';
+import axios from 'axios' 
 
-
-const URL = 'http://localhost:3003/api/todos';
-
+const URL = 'http://localhost:3003/api/todos'; 
 
 //ok 
 export function search()  {
@@ -43,38 +40,6 @@ export function handleSaveClick(id){
 
 
 export function handleEditClick(id){
-    console.log('chegou em handleEditClick', id) 
-    // return {
-    //     type: 'TASK_LIST_EDIT_CLICKED',
-    //     payload: id
-    // }
+    console.log('chegou em handleEditClick', id)  
 }
-// handleDeleteClick = (id) => {
-//     confirmAlert({
-//         title: 'Confirmation!',
-//         message: 'Are you sure to delete?',
-//         buttons: [
-//             {
-//                 label: 'Yes',
-//                 onClick: () => {
-//                     axios.delete(URL + '/' + id)
-//                         .then(
-//                             resp => {
-//                                 //  console.log('fiz um delete', resp);
-//                                 // debugger;
-//                                 //todo atualizar a pagina
-//                                 window.location.reload()
-//                             }
-//                         )
-//                 }
-//             },
-//             {
-//                 label: 'No',
-//                 //onClick: () => alert('Click No')
-//             }
-//         ]
-//     });
-// }
-
-
-
+ 

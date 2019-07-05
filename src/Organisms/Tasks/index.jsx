@@ -25,28 +25,22 @@ class Tasks extends Component {
     refresh() {
         axios.get(`${URL}?sort=-createdAt`)
           .then(
-            resp => {
-              //console.log(resp.data)
+            resp => { 
               this.setState({ list: resp.data })
             }
           )
       }
-      handleClick() {
-        //console.log(this.state)
-        this.setState({ task: '' });
-        //console.log('handleClick executed')
+      handleClick() { 
+        this.setState({ task: '' }); 
       }
 
     handleKeyPress(event) {
         if (event.key === 'Enter') {
-          this.setState({ task: event.target.value });
-          //console.log('enter key pressed', this.state.task);
-          const content = this.state.task;
-    
+          this.setState({ task: event.target.value }); 
+          const content = this.state.task; 
           axios.post(URL, { content })
             .then(
-              resp => {
-                //console.log('fiz um post', resp)
+              resp => { 
                 this.setState({ task: '' })
                 this.refresh()
                 window.location.reload()
@@ -55,19 +49,16 @@ class Tasks extends Component {
         }
       }
 
-      handleInputChange = (event) => {
-      //  debugger
+      handleInputChange = (event) => { 
         this.setState({ task: event.target.value }); 
-      };
-
+      }; 
 
     render() { 
         return (  
             <Col id="ColunaMaisExterna" sm={12} xl={8} style={{ flexDirection: 'column' }}>
             <TaskHeader  handleKeyPress={this.handleKeyPress} value={this.state.value} 
                          handleInputChange={this.handleInputChange}>
-            </TaskHeader>   
-            {/* <TaskList list={this.state.list} handleListChange={this.refresh}></TaskList>  */}
+            </TaskHeader>    
             <TaskList></TaskList> 
             </Col>  
           );
