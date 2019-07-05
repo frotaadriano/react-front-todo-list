@@ -1,9 +1,13 @@
-# React-Front-TodoList-PR
-## PrimeReact Todo list frontend
+# React-TodoList
+## 
+## Todo list frontend
 
 ###### Steps:
 
-
+## PrimeReact and React Bootstrap Todo List 
+### Complete frontend
+### Using React+Redux and 3 middlewares.
+### Backend is available in link above.
 ## Front 
 ###### This Project
 
