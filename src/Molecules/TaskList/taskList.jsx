@@ -94,7 +94,7 @@ class TaskList extends Component {
     }
 
     render() {
-        console.log('minha lista', this.props.list)
+        //console.log('minha lista', this.props.list)
         return (
             <div id="renderRows">
                 {this.renderRows()}

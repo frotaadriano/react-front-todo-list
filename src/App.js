@@ -28,7 +28,7 @@ class App extends Component {
 
   render() {
     return (
-      <Fragment>
+      <Fragment className="layout-wrapper layout-static">
         <Row>
           <Col>
             <div className="p-grid">
