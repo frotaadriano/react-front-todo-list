@@ -1,27 +1,50 @@
-import axios from 'axios' 
+import axios from 'axios'
+import { statement } from '@babel/template';
 
-const URL = 'http://localhost:3003/api/todos'; 
+const URL = 'http://localhost:3003/api/todos';
 
 //ok 
-export function search()  {
+export function search() {
     const request = axios.get(`${URL}?sort=-createdAt`)
-    return  {
+    return {
         type: 'TASK_LIST_SEARCHED',
         payload: request
     }
 }
 
 //ok 
-export function remove(id){
-   
+export function remove(id) {
+
     return dispatch => {
         axios.delete(`${URL}/${id}`)
-        .then(resp => dispatch(search()))
+            .then(resp => dispatch(search()))
     }
 }
 
+//ok
+export function add(content) {
+    return dispatch => {
+        axios.post(URL, { content })
+            .then(resp => dispatch(search()))
+    }
+}
 
-export function changeValue(e){
+//ok
+export function keyPress(event) {
+    if (event.key === 'Enter') {
+        return dispatch => {
+            let content = event.target.value;
+            axios.post(URL, { content })
+                .then(resp => dispatch(search()))
+        }
+    } else {
+        return dispatch => {
+
+        }
+    }
+}
+
+export function changeValue(e) {
     console.log('chegou em changeValue ')
     return {
         type: 'TASK_LIST_VALUE_CHANGED',
@@ -29,17 +52,14 @@ export function changeValue(e){
     }
 }
 
-export function handleSaveClick(id){
+export function handleSaveClick(id) {
     console.log('chegou em handleSaveClick', id)
     return {
         type: 'TASK_LIST_SAVE_CLICKED',
         payload: id
     }
+} 
+
+export function handleEditClick(id) {
+    console.log('chegou em handleEditClick', id)
 }
-
-
-
-export function handleEditClick(id){
-    console.log('chegou em handleEditClick', id)  
-}
- 
