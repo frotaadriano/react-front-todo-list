@@ -15,7 +15,7 @@ class Tasks extends Component {
   }
   render() {
     return (
-      <Col id="ColunaMaisExterna" sm={12} xl={8} style={{ flexDirection: 'column' }}>
+      <Col id="ColunaMaisExterna" sm={12} xl={10} style={{ flexDirection: 'column' }}>
         <TaskHeader></TaskHeader>
         <TaskList></TaskList>
       </Col>

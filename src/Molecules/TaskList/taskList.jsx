@@ -2,6 +2,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import React, { Component } from 'react'
 
 import { Button } from 'primereact/button';
+import ButtonRB from 'react-bootstrap/Button'
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Line from './../../Atoms/Line/line';
@@ -9,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { remove, search, changeValue, handleSaveClick, handleEditClick } from './taskListActions';
+import { done, undone, remove, search, changeValue, handleSaveClick, handleEditClick } from './taskListActions';
 
 
 const URL = 'http://localhost:3003/api/todos';
@@ -24,7 +25,6 @@ class TaskList extends Component {
             idEditing: 0,
             selectedIdToEdit: -1
         };
-        this.handleFinishClick = this.handleFinishClick.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
@@ -44,9 +44,6 @@ class TaskList extends Component {
         }
     }
 
-    handleFinishClick = () => {
-        // console.log('fazer update')
-    }
 
     assignItem = item => {
         // bound arrow function handler
@@ -61,11 +58,20 @@ class TaskList extends Component {
         return (
             this.props.list.map(task => (
                 <Row id="ItemDaLista">
-                    <Col sm={2} xl={2}>
-                        <Button label="Finish" className="p-button-raised  p-button-secondary"
-                            onClick={() => { this.handleFinishClick(task._id) }} />
+                    <Col sm={1} xl={1}>
+                    <i class="pi pi-tag" style={{'fontSize': '2em'}}></i>
                     </Col>
-                    <Col sm={10} xl={7} key={task._id}>
+                    <Col sm={2} xl={1}> 
+                        {
+                            task.is_done 
+                            ?  
+                            <ButtonRB variant="success" onClick={() => { this.props.undone(task) }} size="sm"> UnDone? </ButtonRB>
+                            : <Button label="Done" className="p-button-raised  p-button-secondary"
+                                onClick={() => { this.props.done(task) }} /> 
+                        }  
+                           
+                    </Col>
+                    <Col sm={9} xl={7} key={task._id}>
                         {
                             this.state.idEditing == task._id ? <InputText id="in" value={task.content} /> : task.content
                         }
@@ -75,16 +81,15 @@ class TaskList extends Component {
                         {
                             this.state.idEditing == task._id
                                 ?
-                                <Button label="Save" className="p-button-raised p-button-info"
-                                    // onClick={() => { this.handleSaveClick(task._id) }} 
+                                <Button label="Save" icon="pi pi-save" className="p-button-raised p-button-info" 
                                     onClick={() => { this.props.handleSaveClick(task._id) }}
                                 />
                                 :
-                                <Button label="Edit" className="p-button-raised  p-button-secondary"
+                                <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary"
                                     onClick={() => { this.props.handleEditClick(task._id) }} />
                         }
                         &nbsp;
-                    <Button label="Delete" className="p-button-raised p-button-warning"
+                    <Button label="Delete" icon="pi pi-trash" className="p-button-raised p-button-warning"
                             onClick={() => { this.props.remove(task._id) }} />
                     </Col>
                     <br /> <br />
@@ -110,7 +115,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
         changeValue, handleSaveClick, remove,
-        handleEditClick, search
+        handleEditClick, search, done, undone
     }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList)
