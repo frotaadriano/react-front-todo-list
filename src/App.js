@@ -41,7 +41,7 @@ class App extends Component {
 
 
         <Row style={spaceBelowNavStyle} >
-          <Col sm={12} xl={1} style={{ backgroundColor: '#f4f4f4' }}>
+          <Col sm={12} xl={2} style={{ backgroundColor: '#f4f4f4' }}>
             <LeftBar />
           </Col>
           <Col sm={12} xl={10}>
@@ -51,9 +51,9 @@ class App extends Component {
               <Route path="/about/" component={About} />
             </Router>
           </Col>
-          <Col sm={12} xl={1} style={{ backgroundColor: '#f4f4f4'}}>
+          {/* <Col sm={12} xl={2} style={{ backgroundColor: '#f4f4f4'}}>
             <RightBar />
-          </Col>
+          </Col> */}
         </Row>
       </Fragment>
 

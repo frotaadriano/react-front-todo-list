@@ -13,8 +13,7 @@ export function search() {
 }
 
 //ok 
-export function remove(id) {
-
+export function remove(id) {  
     return dispatch => {
         axios.delete(`${URL}/${id}`)
             .then(resp => dispatch(search()))
@@ -37,12 +36,27 @@ export function keyPress(event) {
             axios.post(URL, { content })
                 .then(resp => dispatch(search()))
         }
-    } else {
-        return dispatch => {
+    } else { return dispatch => { } }
+}
 
-        }
+//ok
+export function done(task) { 
+    return dispatch => {
+        console.log(task)   
+          axios.put(`${URL}/${task._id}`, { ...task, is_done: true  })
+            .then(resp => dispatch(search()))
     }
 }
+
+//ok
+export function undone(task) { 
+    return dispatch => {
+        console.log(task)   
+          axios.put(`${URL}/${task._id}`, { ...task, is_done: false  })
+            .then(resp => dispatch(search()))
+    }
+}
+
 
 export function changeValue(e) {
     console.log('chegou em changeValue ')
@@ -58,7 +72,7 @@ export function handleSaveClick(id) {
         type: 'TASK_LIST_SAVE_CLICKED',
         payload: id
     }
-} 
+}
 
 export function handleEditClick(id) {
     console.log('chegou em handleEditClick', id)
