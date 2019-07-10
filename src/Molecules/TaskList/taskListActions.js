@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { statement } from '@babel/template';
+import axios from 'axios' 
 
 const URL = 'http://localhost:3003/api/todos';
 
