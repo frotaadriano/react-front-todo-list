@@ -1,7 +1,7 @@
 import axios from 'axios' 
 
-//    const URL = 'http://localhost:3000/api/todos';
-const URL = 'https://node-webapi-todo-list.herokuapp.com/api/todos';
+  const URL = 'http://localhost:3000/api/todos';
+//const URL = 'https://node-webapi-todo-list.herokuapp.com/api/todos';
 
 
 //ok 
@@ -67,14 +67,19 @@ export function changeValue(e) {
     }
 }
 
-export function handleSaveClick(id) {
-    console.log('chegou em handleSaveClick', id)
-    return {
-        type: 'TASK_LIST_SAVE_CLICKED',
-        payload: id
+export function handleUpdateClick(task, content) {
+    debugger
+     return dispatch => {
+           axios.put(`${URL}/${task._id}`, { ...task, content: content })
+            .then(resp => dispatch(search()))
     }
+    
+    // return {
+    //     type: 'TASK_LIST_SAVE_CLICKED',
+    //     payload: task
+    // }
 }
 
-export function handleEditClick(id) {
-    console.log('chegou em handleEditClick', id)
-}
+// export function handleEditClick(id) {
+//     console.log('chegou em handleEditClick', id)
+// }

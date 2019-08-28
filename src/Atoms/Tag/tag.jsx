@@ -21,7 +21,7 @@ class Tag extends Component {
         const iconColor = this.props.color ? this.props.color : 'blue';
         return (
             <DivMenuItem>
-                <i class="pi pi-circle-on" style={{ marginRight: '8px', fontSize: '1em', color: iconColor }}></i>
+                <i className="pi pi-circle-on" style={{ marginRight: '8px', fontSize: '1em', color: iconColor }}></i>
                 {this.props.name ? this.props.name : 'Tag no name'}
             </DivMenuItem>
         );

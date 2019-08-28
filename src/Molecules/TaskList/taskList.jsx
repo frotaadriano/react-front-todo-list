@@ -7,96 +7,116 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Line from './../../Atoms/Line/line';
 import { InputText } from 'primereact/inputtext';
+import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { done, undone, remove, search, changeValue, handleSaveClick, handleEditClick } from './taskListActions';
+import { done, undone, remove, search, changeValue, handleUpdateClick } from './taskListActions';
 
 
-const URL = 'http://localhost:3003/api/todos';
+
+const InputEdit = styled(InputText)`
+    width: 100%;
+    background: #eef6f7;
+    margin: 0;
+    padding: 3px;
+    border-color: #007ad93b;
+    `
+const containerButtons = styled.div`
+    width: 100%;
+    margin: 0;  
+    `
 
 class TaskList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             id: '',
-            showList: true,
-            toggleEditSave: true,
-            idEditing: 0,
-            selectedIdToEdit: -1
+            idEditing: -1,
+            content: ''
         };
-        this.toggle = this.toggle.bind(this);
-    }
-
-    toggle(id) {
-        this.setState({ toggleEditSave: !this.state.toggleEditSave });
-        if (this.state.toggleEditSave) {
-            this.setState({
-                idEditing: id,
-                selectedIdToEdit: id
-            })
-        }
-        else {
-            this.setState({
-                idEditing: 0,
-                selectedIdToEdit: -1
-            })
-        }
+        this.handleEditClick = this.handleEditClick.bind(this);
     }
 
 
-    assignItem = item => {
-        // bound arrow function handler
-        //console.log(item);
+    handleEditClick(index, content) {
+        this.setState({
+            idEditing: index,
+            content: content
+        })
     }
+
 
     componentWillMount() {
         this.props.search();
     }
 
+    /**Show/Hide Edit field when able to */
+    toggleEditField(index, task) {
+        return (this.state.idEditing === index ? <InputEdit ClassName="EditField" id="in" value={this.state.content} /> : task.content)
+    }
+
     renderRows = () => {
         return (
-            this.props.list.map(task => (
+            this.props.list.map((task, index) => (
                 <Row id="ItemDaLista">
                     <Col sm={1} xl={1}>
-                    <i class="pi pi-tag" style={{'fontSize': '2em'}}></i>
+                        <i className="pi pi-tag" style={{ 'fontSize': '2em' }}></i>
                     </Col>
-                    <Col sm={2} xl={1}> 
+                    <Col sm={2} xl={1}>
                         {
-                            task.is_done 
-                            ?  
-                            <ButtonRB variant="success" onClick={() => { this.props.undone(task) }} size="sm"> UnDone? </ButtonRB>
-                            : <Button label="Done" className="p-button-raised  p-button-secondary"
-                                onClick={() => { this.props.done(task) }} /> 
-                        }  
-                           
+                            !task.is_done && this.state.idEditing !== index &&
+                            <Button label="Done" className="p-button-raised  p-button-secondary" onClick={() => { this.props.done(task) }} />
+                        }
+
                     </Col>
                     <Col sm={9} xl={7} key={task._id}>
-                        {
-                            this.state.idEditing == task._id ? <InputText id="in" value={task.content} /> : task.content
-                        }
+                        
+                        {this.toggleEditField(index, task)}
+
                         <Line />
                     </Col>
                     <Col sm={12} xl={3}>
+
                         {
-                            this.state.idEditing == task._id
+
+                            this.state.idEditing === index
                                 ?
-                                <Button label="Save" icon="pi pi-save" className="p-button-raised p-button-info" 
-                                    onClick={() => { this.props.handleSaveClick(task._id) }}
-                                />
+                                <containerButtons>
+                                    <Button label="up" icon="pi pi-save" className="p-button-raised p-button-info"
+                                        onClick={() => { this.props.handleUpdateClick(task, this.state.content) }} />
+                                         &nbsp;
+                                    <Button label="Cancel" icon="pi pi-replay" className="p-button-raised p-button-alert"
+                                        // onClick={() => { this.props.handleUpdateClick(task._id, this.state.content) }} 
+                                        />
+                                </containerButtons>
+
                                 :
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary"
-                                    onClick={() => { this.props.handleEditClick(task._id) }} />
+                                (
+                                    task.is_done
+                                        ?
+                                        <ButtonRB variant="success" onClick={() => { this.props.undone(task) }} size="sm"> UnDone? </ButtonRB>
+                                        :
+                                        (
+                                            <containerButtons>
+                                                <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary" 
+                                                    onClick={() => { this.handleEditClick(index) }} />
+                                                    &nbsp;
+                                                <Button label="Delete" icon="pi pi-trash" className="p-button-raised p-button-warning"
+                                                    onClick={() => { this.setState({ idEditing: -1 }); this.props.remove(task._id) }} />
+                                            </containerButtons>
+                                        )
+                                )
                         }
-                        &nbsp;
-                    <Button label="Delete" icon="pi pi-trash" className="p-button-raised p-button-warning"
-                            onClick={() => { this.props.remove(task._id) }} />
+                        <br /> <br />
                     </Col>
-                    <br /> <br />
+
                 </Row>
             ))
         )
     }
+
+
 
     render() {
         //console.log('minha lista', this.props.list)
@@ -114,8 +134,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-        changeValue, handleSaveClick, remove,
-        handleEditClick, search, done, undone
+        changeValue, handleUpdateClick, remove, search, done, undone
     }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList)
