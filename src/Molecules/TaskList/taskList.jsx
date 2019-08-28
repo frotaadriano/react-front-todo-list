@@ -36,6 +36,8 @@ class TaskList extends Component {
             content: ''
         };
         this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleCancelClick = this.handleCancelClick.bind(this);
+
     }
 
 
@@ -46,6 +48,10 @@ class TaskList extends Component {
         })
     }
 
+    handleCancelClick() {
+        this.setState({ idEditing: -1 })
+    }
+
 
     componentWillMount() {
         this.props.search();
@@ -53,7 +59,13 @@ class TaskList extends Component {
 
     /**Show/Hide Edit field when able to */
     toggleEditField(index, task) {
-        return (this.state.idEditing === index ? <InputEdit ClassName="EditField" id="in" value={this.state.content} /> : task.content)
+        return (
+            this.state.idEditing === index
+                ?
+                <InputEdit ClassName="EditField" id="in" value={task.content} />
+                :
+                task.content
+        )
     }
 
     renderRows = () => {
@@ -71,7 +83,7 @@ class TaskList extends Component {
 
                     </Col>
                     <Col sm={9} xl={7} key={task._id}>
-                        
+
                         {this.toggleEditField(index, task)}
 
                         <Line />
@@ -85,12 +97,11 @@ class TaskList extends Component {
                                 <containerButtons>
                                     <Button label="up" icon="pi pi-save" className="p-button-raised p-button-info"
                                         onClick={() => { this.props.handleUpdateClick(task, this.state.content) }} />
-                                         &nbsp;
+                                    &nbsp;
                                     <Button label="Cancel" icon="pi pi-replay" className="p-button-raised p-button-alert"
-                                        // onClick={() => { this.props.handleUpdateClick(task._id, this.state.content) }} 
-                                        />
-                                </containerButtons>
-
+                                        onClick={() => { this.handleCancelClick() }}  
+                                    />
+                                </containerButtons> 
                                 :
                                 (
                                     task.is_done
@@ -99,9 +110,9 @@ class TaskList extends Component {
                                         :
                                         (
                                             <containerButtons>
-                                                <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary" 
+                                                <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary"
                                                     onClick={() => { this.handleEditClick(index) }} />
-                                                    &nbsp;
+                                                &nbsp;
                                                 <Button label="Delete" icon="pi pi-trash" className="p-button-raised p-button-warning"
                                                     onClick={() => { this.setState({ idEditing: -1 }); this.props.remove(task._id) }} />
                                             </containerButtons>
