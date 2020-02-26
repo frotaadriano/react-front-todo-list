@@ -52,8 +52,7 @@ class TaskList extends Component {
         this.setState({ idEditing: -1 })
     }
 
-    changeContent(ev) {
-        debugger;
+    changeContent(ev) { 
         this.setState({ content: ev.target.value }) 
     }
 

@@ -68,7 +68,7 @@ export function changeValue(e) {
 }
 
 export function update(task, content) {
-    debugger;
+    
      return dispatch => {
            axios.put(`${URL}/${task._id}`, { ...task, content: content })
             .then(resp => dispatch(search()))
