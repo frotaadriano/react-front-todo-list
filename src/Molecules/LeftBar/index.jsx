@@ -6,7 +6,7 @@ import { search } from './../../Actions/tagActions';
 
 import Tag from './../../Atoms/Tag/tag';
 import styled from 'styled-components';
-
+import Col from "react-bootstrap/Col";
 
 const DivMenu = styled.div`
     padding:50px 0 0 30px;
@@ -23,15 +23,17 @@ class LeftBar extends Component {
 
     render() {
         return (
-            <DivMenu>
-                {
+            <Col sm={12} xl={2} style={{ backgroundColor: '#f4f4f4' }}>
+                <DivMenu>
+                    {
 
-                    this.props.tagList.map(t => 
-                    <Tag name={t.name} color={t.color ? t.color : ''} />
-                      )
+                        this.props.tagList.map(t =>
+                            <Tag name={t.name} color={t.color ? t.color : ''} />
+                        )
 
-                }
-            </DivMenu>
+                    }
+                </DivMenu>
+            </Col>
         );
     }
 }

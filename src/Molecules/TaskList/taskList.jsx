@@ -11,7 +11,7 @@ import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { done, undone, remove, search, changeValue, handleUpdateClick } from './taskListActions';
+import { done, undone, remove, search, changeValue, update } from './taskListActions';
 
 
 
@@ -22,7 +22,7 @@ const InputEdit = styled(InputText)`
     padding: 3px;
     border-color: #007ad93b;
     `
-const containerButtons = styled.div`
+const ContainerButtons = styled.div`
     width: 100%;
     margin: 0;  
     `
@@ -52,6 +52,10 @@ class TaskList extends Component {
         this.setState({ idEditing: -1 })
     }
 
+    changeContent(ev) {
+        debugger;
+        this.setState({ content: ev.target.value }) 
+    }
 
     componentWillMount() {
         this.props.search();
@@ -59,10 +63,20 @@ class TaskList extends Component {
 
     /**Show/Hide Edit field when able to */
     toggleEditField(index, task) {
+
+  //////      parei aqui
+        // if( this.state.idEditing === index){
+        //     this.setState({
+        //         content: task.content
+        //     }) 
+        // }
+
+
         return (
             this.state.idEditing === index
                 ?
-                <InputEdit ClassName="EditField" id="in" value={task.content} />
+                <InputEdit ClassName="EditField" id="in" value={task.content}  //onChange={this.changeContent}
+                  />
                 :
                 task.content
         )
@@ -94,14 +108,14 @@ class TaskList extends Component {
 
                             this.state.idEditing === index
                                 ?
-                                <containerButtons>
+                                <ContainerButtons>
                                     <Button label="up" icon="pi pi-save" className="p-button-raised p-button-info"
-                                        onClick={() => { this.props.handleUpdateClick(task, this.state.content) }} />
+                                        onClick={() => { this.props.update(task, this.state.content) }} />
                                     &nbsp;
                                     <Button label="Cancel" icon="pi pi-replay" className="p-button-raised p-button-alert"
-                                        onClick={() => { this.handleCancelClick() }}  
+                                        onClick={() => { this.handleCancelClick() }}
                                     />
-                                </containerButtons> 
+                                </ContainerButtons>
                                 :
                                 (
                                     task.is_done
@@ -109,13 +123,13 @@ class TaskList extends Component {
                                         <ButtonRB variant="success" onClick={() => { this.props.undone(task) }} size="sm"> UnDone? </ButtonRB>
                                         :
                                         (
-                                            <containerButtons>
+                                            <ContainerButtons>
                                                 <Button label="Edit" icon="pi pi-pencil" className="p-button-raised  p-button-secondary"
                                                     onClick={() => { this.handleEditClick(index) }} />
                                                 &nbsp;
                                                 <Button label="Delete" icon="pi pi-trash" className="p-button-raised p-button-warning"
                                                     onClick={() => { this.setState({ idEditing: -1 }); this.props.remove(task._id) }} />
-                                            </containerButtons>
+                                            </ContainerButtons>
                                         )
                                 )
                         }
@@ -145,7 +159,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({
-        changeValue, handleUpdateClick, remove, search, done, undone
+        changeValue, update, remove, search, done, undone
     }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList)

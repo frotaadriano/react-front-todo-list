@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -29,21 +29,12 @@ class App extends Component {
   render() {
     return (
       <Fragment className="layout-wrapper layout-static">
-        <Row>
-          <Col>
-            <div className="p-grid">
-              <div className="p-col">
-                <Navbar> </Navbar>
-              </div>
-            </div>
-          </Col>
-        </Row>
+
+        <Navbar> </Navbar>
 
 
         <Row style={spaceBelowNavStyle} >
-          <Col sm={12} xl={2} style={{ backgroundColor: '#f4f4f4' }}>
-            <LeftBar />
-          </Col>
+          <LeftBar />
           <Col sm={12} xl={10}>
             <Router>
               <Route path="/" exact component={Tasks} />

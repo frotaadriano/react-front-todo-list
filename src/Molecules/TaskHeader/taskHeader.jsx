@@ -5,35 +5,43 @@ import { Button } from "primereact/button";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {keyPress, add } from './../TaskList/taskListActions';
+import { keyPress, add } from './../TaskList/taskListActions';
 
 
 class TaskHeader extends Component {
     constructor(props) {
         super(props);
-        this.state = { value: '' } 
+        this.state = { inputTaskField: '' }
         this.handleChange = this.handleChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
-        handleChange (e) { 
-        this.setState({ value: e.target.value });
-      }
-   
-    render() { 
+    handleKeyPress(e) {
+         //this.setState({ inputTaskField: '' })
+        console.log(e);
+        this.props.keyPress(e);  
+        //.then(this.setState({ inputTaskField: '' }));
+    }
+
+    handleChange(e) {
+        this.setState({ inputTaskField: e.target.value });
+    }
+
+    render() {
         return (
             // style={{marginLeft:'30%'}}
-            <div >  
+            <div >
                 <span className="p-float-label">
                     <InputText id="in"
-                        onKeyPress={this.props.keyPress}
-                        value={this.state.value}
-                        onChange={(e) => {this.handleChange(e)}}
-                         />
+                        onKeyPress={()=>{this.handleKeyPress(window.event)}}
+                        value={this.state.inputTaskField}
+                        onChange={(e) => { this.handleChange(e) }}
+                    />
                     <label htmlFor="in">Insert new Task</label>
                     &nbsp;&nbsp;
                     <Button label=""
                         tooltip="add new one!"
-                        onClick={() => this.props.add(this.state.value) }
+                        onClick={() => { this.props.add(this.state.inputTaskField); this.setState({ inputTaskField: '' }) }}
                         className="p-button-secondary"
                         icon="pi pi-plus-circle" />
                 </span>
